@@ -60,20 +60,41 @@ function setFullDeck () {
 		for (var i = 0; i < 13; i++) {	
 			fullDeck.push(cards[i]);
 		}
-	} shuffleDeck();
+	}
 }
 
 setFullDeck();
 
 function shuffleDeck () {
 	var temp;
-	for (var i = fullDeck.length; i > 0; i--) {
+	for (var i = fullDeck.length - 1 ; i > 0; i--) {
 		var random = Math.floor(Math.random() * fullDeck.length);
 
 		temp = fullDeck[i];
 		fullDeck[i] = fullDeck[random];
 		fullDeck[random] = temp;
 	}
+}
+
+function dealPlayer () {
+	for (var i = 0; i < 2; i++) {
+		var cardIndex = Math.floor(Math.random() * fullDeck.length);
+
+		player.hand.push(fullDeck[cardIndex]);
+		fullDeck.splice(cardIndex, 1);
+	}
+	console.log(player.hand);
+
+}
+
+function dealDealer () {
+	for (var i = 0; i < 2; i++) {
+		var cardIndex = Math.floor(Math.random() * fullDeck.length);
+
+		dealer.hand.push(fullDeck[cardIndex]);
+		fullDeck.splice(cardIndex, 1);
+	}
+	console.log(dealer.hand);
 }
 
 var player = {
