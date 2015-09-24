@@ -9,6 +9,12 @@ body {
 	color: #FFF;
 }
 
+header {
+	width: 100%;
+	position: fixed;
+	background: #003F13;
+}
+
 main {
 	margin-top: 10px;
 }
