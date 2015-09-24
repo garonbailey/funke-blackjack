@@ -11,8 +11,8 @@ body {
 
 header {
 	width: 100%;
-	position: fixed;
-	position: top;
+	position: fixed top;
+	margin-top: 0;
 	background: #003F13;
 }
 
