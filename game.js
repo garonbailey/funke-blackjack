@@ -64,3 +64,14 @@ function setFullDeck () {
 }
 
 setFullDeck();
+
+function shuffleDeck () {
+	var temp;
+	for (var i = fullDeck.length; i > 0; i--) {
+		var random = Math.floor(Math.random() * fullDeck.length);
+		
+		temp = fullDeck[i];
+		fullDeck[i] = fullDeck[random];
+		fullDeck[random] = temp;
+	}
+}
