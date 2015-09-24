@@ -60,7 +60,7 @@ function setFullDeck () {
 		for (var i = 0; i < 13; i++) {	
 			fullDeck.push(cards[i]);
 		}
-	}
+	} shuffleDeck();
 }
 
 setFullDeck();
@@ -69,9 +69,30 @@ function shuffleDeck () {
 	var temp;
 	for (var i = fullDeck.length; i > 0; i--) {
 		var random = Math.floor(Math.random() * fullDeck.length);
-		
+
 		temp = fullDeck[i];
 		fullDeck[i] = fullDeck[random];
 		fullDeck[random] = temp;
 	}
+}
+
+var player = {
+	name: "",
+	bank: 1000,
+	bet: 0,
+	hand: []
+}
+
+function newPlayer () {
+	var playerInterface = $('.player-tray');
+	var playerName = $('<h3>');
+	var playerBank = $('<p>');
+	var playerBet = $('<p>');
+	var playerHand = $('<div class="player-hand">');
+
+	playerName.text(player.name);
+	playerBank.text("Bank: $" + player.bank);
+	playerBet.text("Current Bet: $" + player.bet);
+
+	playerInterface.append(playerName).append(playerBank).append(playerBet).append(playerHand);
 }

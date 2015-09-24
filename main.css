@@ -24,16 +24,21 @@ main {
 	background: #4F9D66;
 	display: inline-block;
 	width: 25%;
+	vertical-align: top;
 }
 
 .player-tray {
 	margin-left: 0;
 	margin-right: 0;
+	text-align: left;
+	padding: 5px;
 }
 
 .dealer-tray {
 	margin-left: 0;
 	margin-right: 0;
+	text-align: right;
+	padding: 5px;
 }
 
 .in-play {
@@ -42,4 +47,5 @@ main {
 	margin-left: 2.5%;
 	margin-right: 2.5%;
 	display: inline-block;
+	vertical-align: top;
 }
