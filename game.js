@@ -83,7 +83,13 @@ var player = {
 	hand: []
 }
 
-function newPlayer () {
+function getPlayer () {
+	player.name = prompt("Who's playing, today?");
+
+	renderPlayer();
+}
+
+function renderPlayer () {
 	var playerInterface = $('.player-tray');
 	var playerName = $('<h3>');
 	var playerBank = $('<p>');
@@ -96,3 +102,23 @@ function newPlayer () {
 
 	playerInterface.append(playerName).append(playerBank).append(playerBet).append(playerHand);
 }
+
+var dealer = {
+	name: "Dealer",
+	moneyWon: 0,
+	hand: []
+}
+
+function renderDealer () {
+	var dealerInterface = $('.dealer-tray');
+	var dealerName = $('<h3>');
+	var dealerTake = $('<p>');
+	var dealerHand = $('<div class="dealer-hand">');
+
+	dealerName.text(dealer.name);
+	dealerTake.text("Dealer's take: $" + dealer.moneyWon);
+
+	dealerInterface.append(dealerName).append(dealerTake).append(dealerHand);
+}
+
+renderDealer();

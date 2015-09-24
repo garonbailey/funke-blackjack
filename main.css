@@ -25,6 +25,7 @@ main {
 	display: inline-block;
 	width: 25%;
 	vertical-align: top;
+	border-radius: 6px;
 }
 
 .player-tray {
@@ -48,4 +49,5 @@ main {
 	margin-right: 2.5%;
 	display: inline-block;
 	vertical-align: top;
+	border-radius: 50%;
 }
