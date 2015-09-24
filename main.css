@@ -2,3 +2,37 @@
 	margin: 0;
 	box-sizing: border-box;
 }
+
+body {
+	text-align: center;
+	background: #2A7E43;
+	color: #FFF;
+}
+
+main {
+	margin-top: 10px;
+}
+
+.player-tray, .dealer-tray {
+	background: #4F9D66;
+	display: inline-block;
+	width: 25%;
+}
+
+.player-tray {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.dealer-tray {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.in-play {
+	background: #105E27;
+	width: 40%;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+	display: inline-block;
+}
