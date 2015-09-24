@@ -1,3 +1,4 @@
+//Cards
 var cards = [
 	two = {
 		name: "two",
@@ -61,10 +62,12 @@ function setFullDeck () {
 			fullDeck.push(cards[i]);
 		}
 	}
+	shuffleDeck();
 }
 
 setFullDeck();
 
+//Card-related functions
 function shuffleDeck () {
 	var temp;
 	for (var i = fullDeck.length - 1 ; i > 0; i--) {
@@ -97,6 +100,23 @@ function dealDealer () {
 	console.log(dealer.hand);
 }
 
+function hit (current) {
+	var cardToPull = Math.floor(Math.random() * fullDeck.length);
+
+	current.hand.push(fullDeck[cardToPull]);
+	fullDeck.splice(cardToPull, 1);
+}
+
+function totalHand (b) {
+	var total = 0;
+
+	for (var i = 0; i < b.hand.length; i++) {
+		total += b.hand[i].value;
+	}
+	console.log(total);
+}
+
+//Player 
 var player = {
 	name: "",
 	bank: 1000,
@@ -124,6 +144,7 @@ function renderPlayer () {
 	playerInterface.append(playerName).append(playerBank).append(playerBet).append(playerHand);
 }
 
+//Dealer
 var dealer = {
 	name: "Dealer",
 	moneyWon: 0,
