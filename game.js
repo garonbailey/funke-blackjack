@@ -87,7 +87,7 @@ function dealPlayer () {
 		fullDeck.splice(cardIndex, 1);
 	}
 	console.log(player.hand);
-
+	renderPlayerDeal();
 }
 
 function dealDealer () {
@@ -98,6 +98,7 @@ function dealDealer () {
 		fullDeck.splice(cardIndex, 1);
 	}
 	console.log(dealer.hand);
+	renderDealerDeal();
 }
 
 function renderPlayerDeal() {
@@ -127,6 +128,8 @@ function hit (current) {
 
 	current.hand.push(fullDeck[cardToPull]);
 	fullDeck.splice(cardToPull, 1);
+
+	renderHit(current);
 }
 
 function renderHit (current) {
