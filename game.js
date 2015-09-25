@@ -165,14 +165,27 @@ function addButtons () {
 	var newPlayer = $('<button class="new-player">');
 	var dealButton = $('<button class="deal">');
 	var reset = $('<button class="reset">');
+	var messages = $('<div class="messages">');
+	var theMessage = $('<p class="current-message">')
 
 	newPlayer.text("New Player");
 	dealButton.text("Deal Hand");
 	reset.text("Start Over");
+	theMessage.text("");
+	messages.append(theMessage);
 
-	inPlay.append(newPlayer).append(dealButton).append(reset);
+	inPlay.append(newPlayer).append(dealButton).append(reset).append(messages);
 }
 addButtons();
+
+function removeMessage () {
+	// $('.messages').on('click', function () {
+	// 	$('.current-message').text("");
+	// })
+	setTimeout(function () {
+		$('.current-message').text("");
+	}, 5000);
+}
 
 function addPlayer () {
 	var newPlayer = $('.new-player');
@@ -184,11 +197,17 @@ function addPlayer () {
 
 function deal () {
 	var deal = $('.deal');
+	var messageOutput = $('.current-message');
 
 	deal.on('click', function () {
-		dealPlayer();
-		dealDealer();
-	})
+		if (player.bet < 25) {
+			messageOutput.text("Please place a bet of at least $25");
+			removeMessage();
+		} else {
+			dealPlayer();
+			dealDealer();
+		}
+	});
 }
 
 function startOver () {
@@ -230,8 +249,8 @@ function getPlayer () {
 function renderPlayer () {
 	var playerInterface = $('.player-tray');
 	var playerName = $('<h3>');
-	var playerBank = $('<p>');
-	var playerBet = $('<p>');
+	var playerBank = $('<p class="bank">');
+	var playerBet = $('<p class="bet-output">');
 	var playerHand = $('<div class="player-hand">');
 
 	playerName.text(player.name);
@@ -254,6 +273,29 @@ function playerOptions () {
 	changeBet.text("Change bet");
 
 	playerInterface.append(hit).append(stand).append(changeBet);
+
+	hitMe();
+	newBet();
+}
+
+function hitMe () {
+	var hitClick = $('.hit');
+
+	hitClick.on('click', function () {
+		hit(player);
+	})
+}
+
+function newBet () {
+	var betButton = $('.bet');
+	var output = $('.bet-output')
+
+	betButton.on('click', function () {
+		var currentBet = prompt("What's your bet?");
+
+		player.bet = Number(currentBet);
+		output.text("Current Bet: $" + player.bet);
+	})
 }
 
 //Dealer
@@ -266,7 +308,7 @@ var dealer = {
 function renderDealer () {
 	var dealerInterface = $('.dealer-tray');
 	var dealerName = $('<h3>');
-	var dealerTake = $('<p>');
+	var dealerTake = $('<p class="lost-money">');
 	var dealerHand = $('<div class="dealer-hand">');
 
 	dealerName.text(dealer.name);
