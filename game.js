@@ -129,6 +129,21 @@ function hit (current) {
 	fullDeck.splice(cardToPull, 1);
 }
 
+function renderHit (current) {
+	var dealerTray = $('.dealer-tray');
+	var playerTray = $('.player-tray');
+
+	var card = $('<div class="card">');
+
+	card.text(current.hand[current.hand.length - 1].name);
+
+	if (current == player) {
+		playerTray.append(card);
+	} else if (current == dealer) {
+		dealerTray.append(card);
+	}
+}
+
 function totalHand (b) {
 	var total = 0;
 
