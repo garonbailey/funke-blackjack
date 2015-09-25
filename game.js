@@ -146,7 +146,7 @@ function renderHit (current) {
 	if (current == player) {
 		cardDiv.append(card);
 	} else if (current == dealer) {
-		cardDiv.append(card);
+		dealerTray.append(card);
 	}
 }
 
@@ -156,7 +156,7 @@ function totalHand (b) {
 	for (var i = 0; i < b.hand.length; i++) {
 		total += b.hand[i].value;
 	}
-	console.log(total);
+	return total;
 }
 
 //Game controls
@@ -198,8 +198,21 @@ function addPlayer () {
 function deal () {
 	var deal = $('.deal');
 	var messageOutput = $('.current-message');
+	var playerTray = $('.player-tray');
+	var dealerTray = $('.dealer-tray');
 
 	deal.on('click', function () {
+		setFullDeck();
+		player.hand = [];
+		playerTray.empty();
+		renderPlayer();
+		dealer.hand = [];
+		dealer.moneyWon = 0;
+		dealerTray.empty();
+		fullDeck = [];
+		setFullDeck();
+		renderDealer();
+
 		if (player.bet < 25) {
 			messageOutput.text("Please place a bet of at least $25");
 			removeMessage();
@@ -298,6 +311,15 @@ function newBet () {
 	})
 }
 
+function playerStands () {
+	var standButton = $('.stand');
+
+	standButton.on('click', function () {
+		console.log("clicked");
+		// dealerDecisions();
+	});
+}
+
 //Dealer
 var dealer = {
 	name: "Dealer",
@@ -315,6 +337,29 @@ function renderDealer () {
 	dealerTake.text("Dealer's take: $" + dealer.moneyWon);
 
 	dealerInterface.append(dealerName).append(dealerTake).append(dealerHand);
+}
+
+function dealerDecisions () {
+	var hasAce = false;
+	var totalValue = totalHand(dealer);
+	
+	while (totalValue < 17) {
+		for (var i = 0; i < dealer.hand.length; i++) {
+			if (dealer.hand[i].name === "ace") {
+				hasAce = true;
+			} 
+		}
+		if (hasAce === true && totalValue < 12) {
+			totalValue += 10;
+		} else if (hasAce === true && totalValue < 17) {
+			hit(dealer);
+			totalValue = totalHand(dealer);
+		} else if (hasAce === false && totalValue < 17) {
+			hit(dealer);
+			totalValue = totalHand(dealer);
+		} 
+	}
+	console.log(hasAce, totalValue);
 }
 
 renderDealer();
