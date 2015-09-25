@@ -157,7 +157,58 @@ function totalHand (b) {
 }
 
 //Game controls
+function addButtons () {
+	var inPlay = $('.in-play');
+	var newPlayer = $('<button class="new-player">');
+	var dealButton = $('<button class="deal">');
+	var reset = $('<button class="reset">');
 
+	newPlayer.text("New Player");
+	dealButton.text("Deal Hand");
+	reset.text("Start Over");
+
+	inPlay.append(newPlayer).append(dealButton).append(reset);
+}
+addButtons();
+
+function addPlayer () {
+	var newPlayer = $('.new-player');
+
+	newPlayer.on('click', function () {
+		getPlayer();
+	})
+}
+
+function deal () {
+	var deal = $('.deal');
+
+	deal.on('click', function () {
+		dealPlayer();
+		dealDealer();
+	})
+}
+
+function startOver () {
+	var reset = $('.reset');
+	var playerTray = $('.player-tray');
+	var dealerTray = $('.dealer-tray');
+
+	reset.on('click', function (e) {
+
+		player.name = "";
+		player.hand = [];
+		player.bank = 1000;
+		player.bet = 0;
+		playerTray.empty();
+		dealer.hand = [];
+		dealer.moneyWon = 0;
+		dealerTray.empty();
+		fullDeck = [];
+		setFullDeck();
+		renderDealer();
+
+	})
+}
 
 //Player 
 var player = {
@@ -207,3 +258,6 @@ function renderDealer () {
 }
 
 renderDealer();
+addPlayer();
+deal();
+startOver();
