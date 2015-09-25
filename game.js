@@ -100,6 +100,28 @@ function dealDealer () {
 	console.log(dealer.hand);
 }
 
+function renderPlayerDeal() {
+	var playerTray = $('.player-tray');
+	for (var i = 0; i < player.hand.length; i++) {
+		var card = $('<div class="card">');
+
+		card.text(player.hand[i].name);
+
+		playerTray.append(card);
+	}
+}
+
+function renderDealerDeal() {
+	var dealerTray = $('.dealer-tray');
+	for (var i = 0; i < dealer.hand.length; i++) {
+		var card = $('<div class="card">');
+
+		card.text(dealer.hand[i].name);
+
+		dealerTray.append(card);
+	}
+}
+
 function hit (current) {
 	var cardToPull = Math.floor(Math.random() * fullDeck.length);
 
@@ -115,6 +137,9 @@ function totalHand (b) {
 	}
 	console.log(total);
 }
+
+//Game controls
+
 
 //Player 
 var player = {
