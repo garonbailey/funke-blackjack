@@ -289,6 +289,7 @@ function playerOptions () {
 
 	hitMe();
 	newBet();
+	playerStands();
 }
 
 function hitMe () {
@@ -315,8 +316,7 @@ function playerStands () {
 	var standButton = $('.stand');
 
 	standButton.on('click', function () {
-		console.log("clicked");
-		// dealerDecisions();
+		dealerDecisions();
 	});
 }
 
