@@ -103,12 +103,15 @@ function dealDealer () {
 
 function renderPlayerDeal() {
 	var playerTray = $('.player-tray');
+	var cardDiv = $('<div class="card-container">');
+
+	playerTray.append(cardDiv);
 	for (var i = 0; i < player.hand.length; i++) {
 		var card = $('<div class="card">');
 
 		card.text(player.hand[i].name);
 
-		playerTray.append(card);
+		cardDiv.append(card);
 	}
 }
 
@@ -134,16 +137,16 @@ function hit (current) {
 
 function renderHit (current) {
 	var dealerTray = $('.dealer-tray');
-	var playerTray = $('.player-tray');
+	var cardDiv = $('.card-container');
 
 	var card = $('<div class="card">');
 
 	card.text(current.hand[current.hand.length - 1].name);
 
 	if (current == player) {
-		playerTray.append(card);
+		cardDiv.append(card);
 	} else if (current == dealer) {
-		dealerTray.append(card);
+		cardDiv.append(card);
 	}
 }
 
@@ -236,6 +239,21 @@ function renderPlayer () {
 	playerBet.text("Current Bet: $" + player.bet);
 
 	playerInterface.append(playerName).append(playerBank).append(playerBet).append(playerHand);
+
+	playerOptions();
+}
+
+function playerOptions () {
+	var playerInterface = $('.player-tray');
+	var hit = $('<button class="hit">');
+	var stand = $('<button class="stand">');
+	var changeBet = $('<button class="bet">');
+
+	hit.text("Hit");
+	stand.text("Stand");
+	changeBet.text("Change bet");
+
+	playerInterface.append(hit).append(stand).append(changeBet);
 }
 
 //Dealer

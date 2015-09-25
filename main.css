@@ -43,7 +43,11 @@ main {
 	padding: 5px;
 }
 
-.player-tray .card, .dealer-tray .card {
+.card-container {
+	width: 100%;
+}
+
+.player-tray .card-container .card, .dealer-tray .card {
 	width: 60px;
 	height: 90px;
 	background-color: red;
