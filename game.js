@@ -374,8 +374,9 @@ function playerStands () {
 
 	standButton.on('click', function () {
 		setTimeout(function () {
-			targetCard.detach();
-			dealerSide.append(targetCard);
+			var clonedCard = $('.dealer-tray .dealer-cards').clone();
+			$('.dealer-tray .dealer-cards').detach();
+			dealerSide.append(clonedCard);
 			
 			// $('.dealer-tray .dealer-cards').remove();
 		}, 1000);
