@@ -47,7 +47,7 @@ main {
 	width: 100%;
 }
 
-.player-tray .card-container .card, .dealer-tray .card {
+.player-tray .card-container .card, .dealer-tray .dealer-cards {
 	width: 60px;
 	height: 90px;
 	background-color: red;
@@ -83,10 +83,12 @@ main {
 
 .player-side {
 	text-align: left;
+	margin-top: 2px;
 }
 
 .dealer-side {
 	text-align: right;
+	margin-top: 2px;
 }
 
 .player-side .card {
@@ -101,7 +103,7 @@ main {
 	text-align: center;
 }
 
-.dealer-side .card {
+.dealer-side .dealer-cards {
 	width: 60px;
 	height: 90px;
 	line-height: 90px;

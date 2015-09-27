@@ -131,25 +131,35 @@ function dealDealer () {
 function renderPlayerDeal() {
 	var playerTray = $('.player-tray');
 	var cardDiv = $('<div class="card-container">');
+	var playerSide = $('.player-side');
 
 	playerTray.append(cardDiv);
 	for (var i = 0; i < player.hand.length; i++) {
 		var card = $('<div class="card">');
+		var cardDisplay = $('<h2 class="card-display">');
 
-		card.text(player.hand[i].name);
+		cardDisplay.text(player.hand[i].display);
 
-		cardDiv.append(card);
+		card.append(cardDisplay);
+		playerSide.append(card);
 	}
 }
 
 function renderDealerDeal() {
 	var dealerTray = $('.dealer-tray');
+	var dealerDisplay = $('.dealer-side');
 	for (var i = 0; i < dealer.hand.length; i++) {
-		var card = $('<div class="card">');
+		var card = $('<div class="dealer-cards">');
+		var cardDisplay = $('<h2 class="card-display">');
 
-		card.text(dealer.hand[i].name);
+		cardDisplay.text(dealer.hand[i].display);
 
-		dealerTray.append(card);
+		card.append(cardDisplay);
+		if (i === 0) {
+			dealerDisplay.append(card);
+		} else if (i === 1) {
+			dealerTray.append(card);
+		}
 	}
 }
 
@@ -166,14 +176,28 @@ function renderHit (current) {
 	var dealerTray = $('.dealer-tray');
 	var cardDiv = $('.card-container');
 
-	var card = $('<div class="card">');
+	var playerSide = $('.player-side');
+	var dealerSide = $('.dealer-side');
 
-	card.text(current.hand[current.hand.length - 1].name);
+	var card = $('<div class="card">');
+	var dealerCard = $('<div class="dealer-cards">');
+
+	var cardDisplay = $('<h2 class="card-display">');
+
+
 
 	if (current == player) {
-		cardDiv.append(card);
+		cardDisplay.text(current.hand[current.hand.length - 1].display);
+
+		card.append(cardDisplay);
+
+		playerSide.append(card);
 	} else if (current == dealer) {
-		dealerTray.append(card);
+		cardDisplay.text(current.hand[current.hand.length - 1].display);
+
+		dealerCard.append(cardDisplay);
+
+		dealerSide.append(dealerCard);
 	}
 }
 
@@ -344,9 +368,18 @@ function newBet () {
 
 function playerStands () {
 	var standButton = $('.stand');
+	var dealerSide = $('.dealer-side');
+	var dealerTray = $('.dealer-tray');
+	var targetCard = $('.dealer-tray .dealer-cards');
 
 	standButton.on('click', function () {
-		dealerDecisions();
+		setTimeout(function () {
+			targetCard.detach();
+			dealerSide.append(targetCard);
+			
+			// $('.dealer-tray .dealer-cards').remove();
+		}, 1000);
+		setTimeout(dealerDecisions(), 3000);
 	});
 }
 
