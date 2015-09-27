@@ -2,55 +2,68 @@
 var cards = [
 	two = {
 		name: "two",
-		value: 2
+		value: 2,
+		display: "2"
 	},
 	three = {
 		name: "three",
-		value: 3
+		value: 3,
+		display: "3"
 	},
 	four = {
 		name: "four",
-		value: 4
+		value: 4,
+		display: "4"
 	},
 	five = {
 		name: "five",
-		value: 5
+		value: 5,
+		display: "5"
 	},
 	six = {
 		name: "six",
-		value: 6
+		value: 6,
+		display: "6"
 	},
 	seven = {
 		name: "seven",
-		value: 7
+		value: 7,
+		display: "7"
 	},
 	eight = {
 		name: "eight",
-		value: 8
+		value: 8,
+		display: "8"
 	},
 	nine = {
 		name: "nine",
-		value: 9
+		value: 9,
+		display: "9"
 	},
 	ten = {
 		name: "ten",
-		value: 10
+		value: 10,
+		display: "10"
 	},
 	jack = {
 		name: "jack",
-		value: 10
+		value: 10,
+		display: "J"
 	},
 	queen = {
 		name: "queen",
-		value: 10
+		value: 10,
+		display: "Q"
 	},
 	king = {
 		name: "king",
-		value: 10
+		value: 10,
+		display: "K"
 	},
 	ace = {
 		name: "ace",
-		value: 1
+		value: 1,
+		display: "A"
 	}
 ]
 
@@ -64,6 +77,20 @@ function setFullDeck () {
 	}
 	shuffleDeck();
 }
+
+// function assignSuit () {
+// 	for (var i = 0; i < fullDeck.length; i++) {
+// 		if (i >= 0 && i < 13) {
+// 			fullDeck[i].suit = "hearts";
+// 		} else if (i >= 13 && i < 26) {
+// 			fullDeck[i].suit = "spades";
+// 		} else if (i >= 26 && i < 39) {
+// 			fullDeck[i].suit = "diamonds";
+// 		} else if (i >= 39) {
+// 			fullDeck[i].suit = "clubs";
+// 		}
+// 	}
+// }
 
 setFullDeck();
 
@@ -166,7 +193,9 @@ function addButtons () {
 	var dealButton = $('<button class="deal">');
 	var reset = $('<button class="reset">');
 	var messages = $('<div class="messages">');
-	var theMessage = $('<p class="current-message">')
+	var theMessage = $('<p class="current-message">');
+	var playerSide = $('<div class="player-side">');
+	var dealerSide = $('<div class="dealer-side">');
 
 	newPlayer.text("New Player");
 	dealButton.text("Deal Hand");
@@ -175,6 +204,7 @@ function addButtons () {
 	messages.append(theMessage);
 
 	inPlay.append(newPlayer).append(dealButton).append(reset).append(messages);
+	inPlay.append(playerSide).append(dealerSide);
 }
 addButtons();
 

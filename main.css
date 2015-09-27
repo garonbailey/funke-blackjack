@@ -70,3 +70,45 @@ main {
 	vertical-align: top;
 	border-radius: 20%;
 }
+
+.messages {
+	z-index: 1;
+}
+
+.player-side, .dealer-side {
+	margin: 0;
+	width: 50%;
+	display: inline-block;
+}
+
+.player-side {
+	text-align: left;
+}
+
+.dealer-side {
+	text-align: right;
+}
+
+.player-side .card {
+	width: 60px;
+	height: 90px;
+	line-height: 90px;
+	background-color: white;
+	color: red;
+	border-radius: 4px;
+	display: inline-block;
+	margin: 4px;
+	text-align: center;
+}
+
+.dealer-side .card {
+	width: 60px;
+	height: 90px;
+	line-height: 90px;
+	background-color: white;
+	color: black;
+	border-radius: 4px;
+	display: inline-block;
+	margin: 4px;
+	text-align: center;
+}
