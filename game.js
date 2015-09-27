@@ -369,18 +369,12 @@ function newBet () {
 function playerStands () {
 	var standButton = $('.stand');
 	var dealerSide = $('.dealer-side');
-	var dealerTray = $('.dealer-tray');
-	var targetCard = $('.dealer-tray .dealer-cards');
 
 	standButton.on('click', function () {
 		setTimeout(function () {
-			var clonedCard = $('.dealer-tray .dealer-cards').clone();
-			$('.dealer-tray .dealer-cards').detach();
-			dealerSide.append(clonedCard);
-			
-			// $('.dealer-tray .dealer-cards').remove();
-		}, 1000);
-		setTimeout(dealerDecisions(), 3000);
+			$('.dealer-tray .dealer-cards').detach().appendTo(dealerSide);
+		}, 2000);
+		setTimeout(dealerDecisions(), 4000);
 	});
 }
 
@@ -416,10 +410,10 @@ function dealerDecisions () {
 		if (hasAce === true && totalValue < 12) {
 			totalValue += 10;
 		} else if (hasAce === true && totalValue < 17) {
-			hit(dealer);
+			setTimeout(hit(dealer), 3000);
 			totalValue = totalHand(dealer);
 		} else if (hasAce === false && totalValue < 17) {
-			hit(dealer);
+			setTimeout(hit(dealer), 3000);
 			totalValue = totalHand(dealer);
 		} 
 	}
