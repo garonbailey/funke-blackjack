@@ -7,6 +7,7 @@ body {
 	text-align: center;
 	background: #2A7E43;
 	color: #FFF;
+	font-family: 'Slabo 27px', serif;
 }
 
 header {
@@ -45,19 +46,6 @@ main {
 
 .card-container {
 	width: 100%;
-}
-
-.player-tray .card-container .card, .dealer-tray .dealer-cards {
-	width: 60px;
-	height: 90px;
-	background-color: red;
-	color: red;
-	border-radius: 4px;
-	border-color: white;
-	border-style: solid;
-	border-width: 2px;
-	display: inline-block;
-	margin: 4px;
 }
 
 .in-play {
@@ -101,6 +89,7 @@ main {
 	display: inline-block;
 	margin: 4px;
 	text-align: center;
+	font-family: 'Kaushan Script', cursive;
 }
 
 .dealer-side .dealer-cards {
@@ -113,6 +102,7 @@ main {
 	display: inline-block;
 	margin: 4px;
 	text-align: center;
+	font-family: 'Kaushan Script', cursive;
 }
 
 .dealer-cards.hidden {
@@ -126,5 +116,5 @@ main {
 	border-width: 2px;
 	display: inline-block;
 	margin: 4px;
-
+	font-family: 'Kaushan Script', cursive;
 }
