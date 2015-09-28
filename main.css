@@ -118,3 +118,11 @@ main {
 	margin: 4px;
 	font-family: 'Kaushan Script', cursive;
 }
+
+.red {
+	color: red;
+}
+
+.black {
+	color: black;
+}
