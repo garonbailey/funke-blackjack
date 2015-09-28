@@ -205,15 +205,14 @@ function dealerInitialTotal () {
 }
 
 function newDealerTotal () {
-	var dealerHasAce = false;
-
 	for (var i = 0; i < dealer.hand.length; i++) {
 		if (dealer.hand[i].name === "ace") {
-			dealerHasAce = true;
+			dealer.hasAce = true;
 		}
 	}
-
-	if (dealerHasAce === true && dealer.totalHand > 22) {
+	if (dealer.hasAce === true && dealer.totalHand < 12) {
+		dealer.totalHand += 10;
+	} else if (dealer.hasAce === true && dealer.totalHand > 22) {
 		dealer.totalHand -= 10;
 	}
 
@@ -221,11 +220,9 @@ function newDealerTotal () {
 }
 
 function playerInitialTotal () {
-	var playerHasAce = false;
-
 		for (var i = 0; i < player.hand.length; i++) {
 			if (player.hand[i].name === "ace") {
-				playerHasAce = true;
+				player.hasAce = true;
 			} 
 		}
 
@@ -233,25 +230,23 @@ function playerInitialTotal () {
 			player.totalHand += player.hand[j].value;
 		}
 
-		if (playerHasAce === true && player.totalHand < 12) {
+		if (player.hasAce === true && player.totalHand < 12) {
 			player.totalHand += 10;
-		} else if (playerHasAce === true && player.totalHand > 22) {
+		} else if (player.hasAce === true && player.totalHand > 22) {
 			player.totalHand -= 10;
 		}
 }
 
 function newPlayerTotal () {
-	var playerHasAce = false;
-
 	for (var i = 0; i < player.hand.length; i++) {
 		if (player.hand[i].name === "ace") {
-			playerHasAce = true;
+			player.hasAce = true;
 		}
 	}
 
-	if (playerHasAce === true && player.totalHand < 12) {
+	if (player.hasAce === true && player.totalHand < 12) {
 		player.totalHand += 10;
-	} else if (playerHasAce === true && player.totalhand > 22) {
+	} else if (player.hasAce === true && player.totalhand > 22) {
 		player.totalHand -= 10;
 	}
 
@@ -385,11 +380,11 @@ function deal () {
 		} else if (player.bet < 25) {
 			renderPlayer();
 			renderDealer();
-			messageOutput.text("Please place a bet of at least $25");
-			removeMessage();
+			messageOutput.text("Please place a bet of at least $25.    X");
+			clickRemoveMessage();
 		} else if (player.bank < 25) {
-			messageOutput.text("You don't have enough money to play! Please start over.");
-			removeMessage();
+			messageOutput.text("You don't have enough money to play! Please start over.    X");
+			clickRemoveMessage();
 		} else {
 			renderPlayer();
 			renderDealer();
@@ -435,7 +430,8 @@ var player = {
 	bank: 1000,
 	bet: 0,
 	hand: [],
-	totalHand: 0
+	totalHand: 0,
+	hasAce: false
 }
 
 function getPlayer () {
@@ -531,7 +527,8 @@ var dealer = {
 	name: "Dealer",
 	moneyWon: 0,
 	hand: [],
-	totalHand: 0
+	totalHand: 0,
+	hasAce: false
 }
 
 function renderDealer () {
