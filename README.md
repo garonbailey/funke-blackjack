@@ -1,5 +1,6 @@
 # funke-blackjack
 ## A JavaScript Blackjack game.
+Designed, programmed, and built by Garon Bailey. 2015.
 
 ## Wireframes
 
