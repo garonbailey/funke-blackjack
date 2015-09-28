@@ -142,7 +142,8 @@ function renderDealerDeal() {
 		if (i === 0) {
 			dealerDisplay.append(card);
 		} else if (i === 1) {
-			dealerTray.append(card);
+			card.addClass('hidden');
+			dealerDisplay.append(card);
 		}
 	}
 }
@@ -369,19 +370,27 @@ function deal () {
 		player.totalHand = 0;
 		playerTray.empty();
 		playerInPlay.empty();
-		renderPlayer();
 		dealer.hand = [];
 		dealer.totalHand = 0;
 		dealerTray.empty();
 		dealerInPlay.empty();
 		fullDeck = [];
 		setFullDeck();
-		renderDealer();
 
-		if (player.bet < 25) {
+		if (player.name === "") {
+			messageOutput.text("Please enter a new player");
+			removeMessage();
+		} else if (player.bet < 25) {
+			renderPlayer();
+			renderDealer();
 			messageOutput.text("Please place a bet of at least $25");
 			removeMessage();
+		} else if (player.bank < 25) {
+			messageOutput.text("You don't have enough money to play! Please start over.");
+			removeMessage();
 		} else {
+			renderPlayer();
+			renderDealer();
 			dealPlayer();
 			dealDealer();
 			playerInitialTotal();
@@ -510,7 +519,7 @@ function playerStands () {
 	var dealerSide = $('.dealer-side');
 
 	standButton.on('click', function () {
-		$('.dealer-tray .dealer-cards').detach().appendTo(dealerSide);
+		$(".dealer-cards").removeClass('hidden');
 		setTimeout(dealerDecisions, 3000);
 	});
 }
