@@ -251,6 +251,8 @@ function newPlayerTotal () {
 
 	if (playerHasAce === true && player.totalHand < 12) {
 		player.totalHand += 10;
+	} else if (playerHasAce === true && player.totalhand > 22) {
+		player.totalHand -= 10;
 	}
 
 	player.totalHand += player.hand[player.hand.length - 1].value;
