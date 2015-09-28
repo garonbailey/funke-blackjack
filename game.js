@@ -78,20 +78,6 @@ function setFullDeck () {
 	shuffleDeck();
 }
 
-// function assignSuit () {
-// 	for (var i = 0; i < fullDeck.length; i++) {
-// 		if (i >= 0 && i < 13) {
-// 			fullDeck[i].suit = "hearts";
-// 		} else if (i >= 13 && i < 26) {
-// 			fullDeck[i].suit = "spades";
-// 		} else if (i >= 26 && i < 39) {
-// 			fullDeck[i].suit = "diamonds";
-// 		} else if (i >= 39) {
-// 			fullDeck[i].suit = "clubs";
-// 		}
-// 	}
-// }
-
 setFullDeck();
 
 //Card-related functions
@@ -113,7 +99,6 @@ function dealPlayer () {
 		player.hand.push(fullDeck[cardIndex]);
 		fullDeck.splice(cardIndex, 1);
 	}
-	console.log(player.hand);
 	renderPlayerDeal();
 }
 
@@ -124,7 +109,6 @@ function dealDealer () {
 		dealer.hand.push(fullDeck[cardIndex]);
 		fullDeck.splice(cardIndex, 1);
 	}
-	console.log(dealer.hand);
 	renderDealerDeal();
 }
 
@@ -201,13 +185,126 @@ function renderHit (current) {
 	}
 }
 
-function totalHand (b) {
-	var total = 0;
+function dealerInitialTotal () {
+	var dealerHasAce = false;
 
-	for (var i = 0; i < b.hand.length; i++) {
-		total += b.hand[i].value;
+		for (var i = 0; i < dealer.hand.length; i++) {
+			if (dealer.hand[i].name === "ace") {
+				dealerHasAce = true;
+			} 
+		}
+
+		for (var j = 0; j < dealer.hand.length; j++) {
+			dealer.totalHand += dealer.hand[j].value;
+		}
+
+		if (dealerHasAce === true && dealer.totalHand < 12) {
+			dealer.totalHand += 10;
+		} 
+}
+
+function newDealerTotal () {
+	var dealerHasAce = false;
+
+	for (var i = 0; i < dealer.hand.length; i++) {
+		if (dealer.hand[i].name === "ace") {
+			dealerHasAce = true;
+		}
 	}
-	return total;
+
+	if (dealerHasAce === true && dealer.totalHand > 22) {
+		dealer.totalHand -= 10;
+	}
+
+	dealer.totalHand += dealer.hand[dealer.hand.length - 1].value;
+}
+
+function playerInitialTotal () {
+	var playerHasAce = false;
+
+		for (var i = 0; i < player.hand.length; i++) {
+			if (player.hand[i].name === "ace") {
+				playerHasAce = true;
+			} 
+		}
+
+		for (var j = 0; j < player.hand.length; j++) {
+			player.totalHand += player.hand[j].value;
+		}
+
+		if (playerHasAce === true && player.totalHand < 12) {
+			player.totalHand += 10;
+		} else if (playerHasAce === true && player.totalHand > 22) {
+			player.totalHand -= 10;
+		}
+}
+
+function newPlayerTotal () {
+	var playerHasAce = false;
+
+	for (var i = 0; i < player.hand.length; i++) {
+		if (player.hand[i].name === "ace") {
+			playerHasAce = true;
+		}
+	}
+
+	if (playerHasAce === true && player.totalHand < 12) {
+		player.totalHand += 10;
+	}
+
+	player.totalHand += player.hand[player.hand.length - 1].value;
+}
+
+function determineWinner () {
+	var theMessage = $('.current-message');
+	var playerBank = $('.bank');
+	var dealerTake = $('.lost-money');
+	
+	if (player.totalHand === 21 && dealer.totalHand !== 21) {
+		theMessage.text("Blackjack! " + player.name + " wins!     X");
+		clickRemoveMessage();
+		player.bank += player.bet;
+		playerBank.text("Bank: $" + player.bank);
+		if (dealer.moneyWon >= player.bet) {
+			dealer.moneyWon -= player.bet;
+			dealerTake.text("Dealer's take: $" + dealer.moneyWon);
+		}
+	} else if (player.totalHand < 21 && dealer.totalHand > 21) {
+		theMessage.text("Dealer Busts! " + player.name + " wins!     X");
+		clickRemoveMessage();
+		player.bank += player.bet;
+		playerBank.text("Bank: $" + player.bank);
+		if (dealer.moneyWon >= player.bet) {
+			dealer.moneyWon -= player.bet;
+			dealerTake.text("Dealer's take: $" + dealer.moneyWon);
+		}
+	} else if (player.totalHand > 21 && dealer.totalHand <= 21) {
+		theMessage.text(player.name + " busts! Dealer wins.    X");
+		clickRemoveMessage();
+		player.bank -= player.bet;
+		dealer.moneyWon += player.bet;
+		playerBank.text("Bank: $" + player.bank);
+		dealerTake.text("Dealer's take: $" + dealer.moneyWon);
+	} else if (player.totalHand === dealer.totalHand) {
+		theMessage.text("It's a push!    X");
+		clickRemoveMessage();
+	} else if (player.totalHand <= 21 && player.totalHand > dealer.totalHand) {
+		theMessage.text(player.name + " wins with " + player.totalHand + " to Dealer's " + dealer.totalHand + "!     X");
+		clickRemoveMessage();
+		player.bank += player.bet;
+		playerBank.text("Bank: $" + player.bank);
+		if (dealer.moneyWon >= player.bet) {
+			dealer.moneyWon -= player.bet;
+			dealerTake.text("Dealer's take: $" + dealer.moneyWon);
+		}
+	} else if (dealer.totalHand <= 21 && dealer.totalHand > player.totalHand) {
+		theMessage.text("Dealer wins with " + dealer.totalHand + " to " + player.name + "'s " + player.totalHand + "!     X");
+		clickRemoveMessage();
+		player.bank -= player.bet;
+		dealer.moneyWon += player.bet;
+		playerBank.text("Bank: $" + player.bank);
+		dealerTake.text("Dealer's take: $" + dealer.moneyWon);
+	}
 }
 
 //Game controls
@@ -233,20 +330,29 @@ function addButtons () {
 addButtons();
 
 function removeMessage () {
-	// $('.messages').on('click', function () {
-	// 	$('.current-message').text("");
-	// })
 	setTimeout(function () {
 		$('.current-message').text("");
 	}, 5000);
 }
 
+function clickRemoveMessage () {
+	$('.messages').on('click', function () {
+		$('.current-message').text("");
+	})
+}
+
 function addPlayer () {
 	var newPlayer = $('.new-player');
+	var theMessage = $('.current-message');
 
-	newPlayer.on('click', function () {
-		getPlayer();
-	})
+	if (player.name === "") {
+		newPlayer.on('click', function () {
+			getPlayer();
+		})
+	} else {
+		theMessage.text("There is already a player!");
+		removeMessage();
+	}
 }
 
 function deal () {
@@ -254,15 +360,20 @@ function deal () {
 	var messageOutput = $('.current-message');
 	var playerTray = $('.player-tray');
 	var dealerTray = $('.dealer-tray');
+	var playerInPlay = $('.player-side');
+	var dealerInPlay = $('.dealer-side');
 
 	deal.on('click', function () {
 		setFullDeck();
 		player.hand = [];
+		player.totalHand = 0;
 		playerTray.empty();
+		playerInPlay.empty();
 		renderPlayer();
 		dealer.hand = [];
-		dealer.moneyWon = 0;
+		dealer.totalHand = 0;
 		dealerTray.empty();
+		dealerInPlay.empty();
 		fullDeck = [];
 		setFullDeck();
 		renderDealer();
@@ -273,6 +384,8 @@ function deal () {
 		} else {
 			dealPlayer();
 			dealDealer();
+			playerInitialTotal();
+			dealerInitialTotal();
 		}
 	});
 }
@@ -281,6 +394,8 @@ function startOver () {
 	var reset = $('.reset');
 	var playerTray = $('.player-tray');
 	var dealerTray = $('.dealer-tray');
+	var playerInPlay = $('.player-side');
+	var dealerInPlay = $('.dealer-side');
 
 	reset.on('click', function (e) {
 
@@ -288,10 +403,14 @@ function startOver () {
 		player.hand = [];
 		player.bank = 1000;
 		player.bet = 0;
+		player.totalHand = 0;
 		playerTray.empty();
+		playerInPlay.empty();
 		dealer.hand = [];
 		dealer.moneyWon = 0;
+		dealer.totalHand = 0;
 		dealerTray.empty();
+		dealerInPlay.empty();
 		fullDeck = [];
 		setFullDeck();
 		renderDealer();
@@ -304,7 +423,8 @@ var player = {
 	name: "",
 	bank: 1000,
 	bet: 0,
-	hand: []
+	hand: [],
+	totalHand: 0
 }
 
 function getPlayer () {
@@ -348,9 +468,28 @@ function playerOptions () {
 
 function hitMe () {
 	var hitClick = $('.hit');
+	var theMessage = $('.current-message');
 
 	hitClick.on('click', function () {
 		hit(player);
+		var playerHasAce = false;
+		for (var i = 0; i < player.hand.length; i++) {
+			if (player.hand[i].name === "ace") {
+				playerHasAce = true;
+			}
+		}
+		if (playerHasAce === true && player.totalHand > 22) {
+			player.totalHand -= 10;
+		}
+		newPlayerTotal();
+		if (player.totalHand > 21) {
+			theMessage.text(player.name + " busts! Dealer wins!    X");
+			clickRemoveMessage();
+			player.bank -= player.bet;
+			$('.bank').text("Bank: $" + player.bank);
+			dealer.moneyWon += player.bet;
+			$('.lost-money').text("Dealer's take: $" + dealer.moneyWon);
+		}
 	})
 }
 
@@ -371,10 +510,8 @@ function playerStands () {
 	var dealerSide = $('.dealer-side');
 
 	standButton.on('click', function () {
-		setTimeout(function () {
-			$('.dealer-tray .dealer-cards').detach().appendTo(dealerSide);
-		}, 2000);
-		setTimeout(dealerDecisions(), 4000);
+		$('.dealer-tray .dealer-cards').detach().appendTo(dealerSide);
+		setTimeout(dealerDecisions, 3000);
 	});
 }
 
@@ -382,7 +519,8 @@ function playerStands () {
 var dealer = {
 	name: "Dealer",
 	moneyWon: 0,
-	hand: []
+	hand: [],
+	totalHand: 0
 }
 
 function renderDealer () {
@@ -398,26 +536,12 @@ function renderDealer () {
 }
 
 function dealerDecisions () {
-	var hasAce = false;
-	var totalValue = totalHand(dealer);
-	
-	while (totalValue < 17) {
-		for (var i = 0; i < dealer.hand.length; i++) {
-			if (dealer.hand[i].name === "ace") {
-				hasAce = true;
-			} 
-		}
-		if (hasAce === true && totalValue < 12) {
-			totalValue += 10;
-		} else if (hasAce === true && totalValue < 17) {
-			setTimeout(hit(dealer), 3000);
-			totalValue = totalHand(dealer);
-		} else if (hasAce === false && totalValue < 17) {
-			setTimeout(hit(dealer), 3000);
-			totalValue = totalHand(dealer);
-		} 
+	while (dealer.totalHand < 17) {
+		hit(dealer);
+		newDealerTotal();
 	}
-	console.log(hasAce, totalValue);
+	
+	determineWinner();
 }
 
 renderDealer();
