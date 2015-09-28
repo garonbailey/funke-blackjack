@@ -3,7 +3,7 @@
 
 ## Wireframes
 
-
+![Image of Wireframe](https://farm6.staticflickr.com/5692/21772505492_c02f5b7e62_k.jpg)
 
 ## User Story
 
