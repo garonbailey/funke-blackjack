@@ -210,13 +210,16 @@ function newDealerTotal () {
 			dealer.hasAce = true;
 		}
 	}
-	if (dealer.hasAce === true && dealer.totalHand < 12) {
-		dealer.totalHand += 10;
-	} else if (dealer.hasAce === true && dealer.totalHand > 22) {
-		dealer.totalHand -= 10;
-	}
 
-	dealer.totalHand += dealer.hand[dealer.hand.length - 1].value;
+	var currentTotal = dealer.totalhand + dealer.hand[dealer.hand.length -1].value
+
+	if (dealer.hasAce === true && currentTotal <= 11) {
+		dealer.totalHand = currentTotal + 10;
+	} else if (dealer.hasAce === true && currentTotal > 21) {
+		dealer.totalHand = currentTotal - 10;
+	} else {
+		dealer.totalHand = currentTotal;
+	}
 }
 
 function playerInitialTotal () {
@@ -244,13 +247,15 @@ function newPlayerTotal () {
 		}
 	}
 
-	if (player.hasAce === true && player.totalHand < 12) {
-		player.totalHand += 10;
-	} else if (player.hasAce === true && player.totalhand > 22) {
-		player.totalHand -= 10;
-	}
+	var currentTotal = player.totalHand + player.hand[player.hand.length - 1].value;
 
-	player.totalHand += player.hand[player.hand.length - 1].value;
+	if (player.hasAce === true && currentTotal <= 11) {
+		player.totalHand = currentTotal + 10;
+	} else if (player.hasAce === true && currentTotal > 21) {
+		player.totalHand = currentTotal - 10;
+	} else {
+		player.totalHand = currentTotal;
+	}
 }
 
 function determineWinner () {
@@ -365,10 +370,12 @@ function deal () {
 		setFullDeck();
 		player.hand = [];
 		player.totalHand = 0;
+		player.hasAce = false;
 		playerTray.empty();
 		playerInPlay.empty();
 		dealer.hand = [];
 		dealer.totalHand = 0;
+		dealer.hasAce = false;
 		dealerTray.empty();
 		dealerInPlay.empty();
 		fullDeck = [];
@@ -410,11 +417,13 @@ function startOver () {
 		player.bank = 1000;
 		player.bet = 0;
 		player.totalHand = 0;
+		player.hasAce = false;
 		playerTray.empty();
 		playerInPlay.empty();
 		dealer.hand = [];
 		dealer.moneyWon = 0;
 		dealer.totalHand = 0;
+		dealer.hasAce = false;
 		dealerTray.empty();
 		dealerInPlay.empty();
 		fullDeck = [];
