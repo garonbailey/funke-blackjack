@@ -187,58 +187,51 @@ function renderHit (current) {
 }
 
 function dealerInitialTotal () {
-	var dealerHasAce = false;
-
-		for (var i = 0; i < dealer.hand.length; i++) {
-			if (dealer.hand[i].name === "ace") {
-				dealerHasAce = true;
-			} 
-		}
-
-		for (var j = 0; j < dealer.hand.length; j++) {
-			dealer.totalHand += dealer.hand[j].value;
-		}
-
-		if (dealerHasAce === true && dealer.totalHand < 12) {
-			dealer.totalHand += 10;
-		} 
-}
-
-function newDealerTotal () {
 	for (var i = 0; i < dealer.hand.length; i++) {
 		if (dealer.hand[i].name === "ace") {
 			dealer.hasAce = true;
+			dealer.totalHand += dealer.hand[i].value + 10;
+			dealer.tenAdded = true;
+		} else {
+			dealer.totalHand += dealer.hand[i].value;
 		}
 	}
-
-	var currentTotal = dealer.totalhand + dealer.hand[dealer.hand.length -1].value
-
-	if (dealer.hasAce === true && currentTotal <= 11) {
-		dealer.totalHand = currentTotal + 10;
-	} else if (dealer.hasAce === true && currentTotal > 21) {
-		dealer.totalHand = currentTotal - 10;
-	} else {
-		dealer.totalHand = currentTotal;
-	}
-	dealerDecisions();
 }
 
+// function newDealerTotal () {
+// 	for (var i = 0; i < dealer.hand.length; i++) {
+// 		if (dealer.hand[i].name === "ace") {
+// 			dealer.hasAce = true;
+// 		}
+// 	}
+
+// 	var currentTotal = dealer.totalhand + dealer.hand[dealer.hand.length -1].value
+
+// 	if (dealer.hasAce === true && currentTotal <= 11) {
+// 		dealer.totalHand = currentTotal + 10;
+// 	} else if (dealer.hasAce === true && currentTotal > 21) {
+// 		dealer.totalHand = currentTotal - 10;
+// 	} else {
+// 		dealer.totalHand = currentTotal;
+// 	}
+// 	dealerDecisions();
+// }
+
 function playerInitialTotal () {
-		for (var i = 0; i < player.hand.length; i++) {
-			if (player.hand[i].name === "ace") {
-				player.hasAce = true;
-			} 
-		}
+	for (var i = 0; i < player.hand.length; i++) {
+		if (player.hand[i].name === "ace") {
+			player.hasAce = true;
+		} 
+	}
 
-		for (var j = 0; j < player.hand.length; j++) {
-			player.totalHand += player.hand[j].value;
-		}
+	if (player.hasAce) {
+		player.totalHand += 10;
+		player.tenAdded = true;
+	}
 
-		if (player.hasAce === true && player.totalHand < 12) {
-			player.totalHand += 10;
-		} else if (player.hasAce === true && player.totalHand > 22) {
-			player.totalHand -= 10;
-		}
+	for (var j = 0; j < player.hand.length; j++) {
+		player.totalHand += player.hand[j].value;
+	}
 }
 
 function newPlayerTotal () {
@@ -250,10 +243,11 @@ function newPlayerTotal () {
 
 	var currentTotal = player.totalHand + player.hand[player.hand.length - 1].value;
 
-	if (player.hasAce === true && currentTotal <= 11) {
+	if (player.hasAce && player.tenAdded === false && currentTotal <= 11) {
 		player.totalHand = currentTotal + 10;
-	} else if (player.hasAce === true && currentTotal > 21) {
+	} else if (player.hasAce && player.tenAdded && player.tenSubtracted === false && currentTotal > 21) {
 		player.totalHand = currentTotal - 10;
+		player.tenSubtracted = true;
 	} else {
 		player.totalHand = currentTotal;
 	}
@@ -372,11 +366,16 @@ function deal () {
 		player.hand = [];
 		player.totalHand = 0;
 		player.hasAce = false;
+		player.tenAdded = false;
+		player.tenSubtracted = false;
 		playerTray.empty();
 		playerInPlay.empty();
 		dealer.hand = [];
 		dealer.totalHand = 0;
 		dealer.hasAce = false;
+		dealer.numberOfAces = 0;
+		dealer.tenAdded = false;
+		dealer.tenSubtracted = false;
 		dealerTray.empty();
 		dealerInPlay.empty();
 		fullDeck = [];
@@ -419,12 +418,17 @@ function startOver () {
 		player.bet = 0;
 		player.totalHand = 0;
 		player.hasAce = false;
+		player.tenAdded = false;
+		player.tenSubtracted = false;
 		playerTray.empty();
 		playerInPlay.empty();
-		dealer.hand = [];
 		dealer.moneyWon = 0;
+		dealer.hand = [];
 		dealer.totalHand = 0;
 		dealer.hasAce = false;
+		dealer.numberOfAces = 0;
+		dealer.tenAdded = false;
+		dealer.tenSubtracted = false;
 		dealerTray.empty();
 		dealerInPlay.empty();
 		fullDeck = [];
@@ -441,7 +445,9 @@ var player = {
 	bet: 0,
 	hand: [],
 	totalHand: 0,
-	hasAce: false
+	hasAce: false,
+	tenAdded: false,
+	tenSubtracted: false
 }
 
 function getPlayer () {
@@ -495,8 +501,9 @@ function hitMe () {
 				playerHasAce = true;
 			}
 		}
-		if (playerHasAce === true && player.totalHand > 22) {
+		if (player.hasAce && player.tenAdded && player.tenSubtracted === false && player.totalHand > 22) {
 			player.totalHand -= 10;
+			player.tenSubtracted = true;
 		}
 		newPlayerTotal();
 		if (player.totalHand > 21) {
@@ -538,7 +545,10 @@ var dealer = {
 	moneyWon: 0,
 	hand: [],
 	totalHand: 0,
-	hasAce: false
+	hasAce: false,
+	numberOfAces: 0,
+	tenAdded: false,
+	tenSubtracted: false
 }
 
 function renderDealer () {
@@ -553,14 +563,41 @@ function renderDealer () {
 	dealerInterface.append(dealerName).append(dealerTake).append(dealerHand);
 }
 
-function dealerDecisions () {
-	while (dealer.totalHand < 17) {
-		hit(dealer);
-		newDealerTotal();
+function handleAce () {
+	for (var i = 0; i < dealer.hand.length; i++) {
+		if (dealer.hand[i].name === "ace") {
+			dealer.hasAce = true;
+		}
 	}
-	
-	determineWinner();
+
+	if (dealer.hasAce && dealer.tenAdded === false && dealer.totalhand <= 11) {
+		dealer.totalHand += 10;
+		dealer.tenAdded = true;
+	} else if (dealer.tenAdded && dealer.tenSubtracted === false && dealer.totalHand > 21) {
+		dealer.totalHand -= 10;
+		dealer.tenSubtracted = true;
+	} 
 }
+
+function dealerDecisions () {
+	if (dealer.totalHand >= 17) {
+		determineWinner();
+	} else {
+		while (dealer.totalHand < 17) {
+			hit(dealer);
+			dealer.totalHand += dealer.hand[dealer.hand.length - 1].value;
+			handleAce();
+		} 
+		determineWinner();
+	}
+}
+
+// function runDealer () {
+// 	while (dealer.totalHand < 17) {
+// 		dealerDecisions();
+// 	}
+// 	determineWinner();
+// }
 
 renderDealer();
 addPlayer();
