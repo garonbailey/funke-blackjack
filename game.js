@@ -198,25 +198,6 @@ function dealerInitialTotal () {
 	}
 }
 
-// function newDealerTotal () {
-// 	for (var i = 0; i < dealer.hand.length; i++) {
-// 		if (dealer.hand[i].name === "ace") {
-// 			dealer.hasAce = true;
-// 		}
-// 	}
-
-// 	var currentTotal = dealer.totalhand + dealer.hand[dealer.hand.length -1].value
-
-// 	if (dealer.hasAce === true && currentTotal <= 11) {
-// 		dealer.totalHand = currentTotal + 10;
-// 	} else if (dealer.hasAce === true && currentTotal > 21) {
-// 		dealer.totalHand = currentTotal - 10;
-// 	} else {
-// 		dealer.totalHand = currentTotal;
-// 	}
-// 	dealerDecisions();
-// }
-
 function playerInitialTotal () {
 	for (var i = 0; i < player.hand.length; i++) {
 		if (player.hand[i].name === "ace") {
@@ -591,13 +572,6 @@ function dealerDecisions () {
 		determineWinner();
 	}
 }
-
-// function runDealer () {
-// 	while (dealer.totalHand < 17) {
-// 		dealerDecisions();
-// 	}
-// 	determineWinner();
-// }
 
 renderDealer();
 addPlayer();
