@@ -220,6 +220,7 @@ function newDealerTotal () {
 	} else {
 		dealer.totalHand = currentTotal;
 	}
+	dealerDecisions();
 }
 
 function playerInitialTotal () {
